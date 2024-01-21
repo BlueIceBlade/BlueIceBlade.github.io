@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Snake</title>
+        <link rel="stylesheet" href="style.css" type="text/css" />
+    </head>
+    <body>
+        <div class="game">
+            <img class="splash-image" src="splash.png" />
+        </div>
+        <div class="score">0</div>
+        <ul class="menu">
+            <li>
+                <a class="btn start">Start</a>
+            </li>
+        </ul>
+        <script src="jquery.min.js"></script>
+        <script src="snake.js"></script>
+        <script>
+            $('.menu').on('click', '.start', function() {
+                Snake.start();
+            });
+        </script>
+    </body>
+</html>
