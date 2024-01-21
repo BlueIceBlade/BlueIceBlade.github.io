@@ -76,10 +76,24 @@ const Snake = {
         gameStarted = true;
     },
     placeEgg: () => {
-         //Work out random position for the egg
-         egg = {
+        //Work out random position for the egg
+        egg = {
             x: Math.floor(Math.random() * snakeSettings.gridX) + 1,
             y: Math.floor(Math.random() * snakeSettings.gridY) + 1,
+        }
+
+        //Make sure new egg doesn't fall on the head
+        if (egg.x == snakeHead.x && egg.y == snakeHead.y) {
+            Snake.placeEgg();
+            return false;
+        }
+
+        //Make sure new egg doesn't fall on body
+        for (let bodyPart of snakeBody) {
+            if (egg.x == bodyPart.x && egg.y == bodyPart.y) {
+                Snake.placeEgg();
+                return false;
+            }
         }
 
         //Place Egg
