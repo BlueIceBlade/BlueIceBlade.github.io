@@ -3,7 +3,7 @@ let snakeSettings = {
     gridY: 25,
     gameContainer: '.game',
     scoreContainer: '.score',
-    speed: 4
+    speed: 5
 };
 let snakeBody = new Array();
 let snakeHead = {};
