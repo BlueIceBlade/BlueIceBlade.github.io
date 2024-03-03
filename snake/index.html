@@ -3,6 +3,21 @@
     <head>
         <title>Snake</title>
         <link rel="stylesheet" href="style.css" type="text/css" />
+        <meta id="Viewport" name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=yes, width=465"/>
+        <script>
+            new function viewport() {
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|bada|iemobile|BB[0-9.,:_-]{2,};/i.test(navigator.userAgent)) {
+                    var ww = (window.innerWidth < window.screen.width) ? window.innerWidth : window.screen.width; //get proper width
+                    var mw = 465; // min width of site
+                    var ratio = ww / mw; //calculate ratio
+                    if (ww < mw) { //smaller than minimum size
+                        document.getElementById('Viewport').setAttribute('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
+                    } else { //regular size
+                        document.getElementById('Viewport').setAttribute('content', 'initial-scale=1.0, maximum-scale=1, minimum-scale=1.0, user-scalable=yes, width=' + ww);
+                    }
+                }
+            };
+        </script>
     </head>
     <body>
         <div class="game">
