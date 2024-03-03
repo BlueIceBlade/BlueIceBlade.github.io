@@ -1,6 +1,6 @@
 let snakeSettings = {
-    gridX: 25,
-    gridY: 25,
+    gridX: 15,
+    gridY: 15,
     gameContainer: '.game',
     scoreContainer: '.score',
     menuContainer: '.menu',
