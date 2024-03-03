@@ -93,10 +93,14 @@ body {
 }
 
 .menu {
-    display: block;
+    display: none;
     width: 300px;
     margin: 0 auto;
     padding: 0;
+}
+
+.menu.show {
+    display: block;
 }
 
 .menu li {
@@ -124,4 +128,78 @@ body {
 
 .menu li a:active {
     background-color: #008800
+}
+
+.controls {
+    bottom: 50px;
+    left: calc(50% - 150px);
+    position: fixed;
+    display: none;
+    width: 300px;
+    height: 300px;
+    padding: 0;
+}
+
+.controls.show {
+    display: block;
+}
+
+.controls a {
+    position: absolute;
+    display: block;
+    width: 100px;
+    height: 100px;
+    font-size: 50px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.controls a.up {
+    background-image: url(images/arrow-up.png);
+    top: 0;
+    left: calc(50% - 50px);
+}
+
+.controls a.left {
+    background-image: url(images/arrow-left.png);
+    top: calc(50% - 50px);
+    left: 0;
+}
+
+.controls a.right {
+    background-image: url(images/arrow-right.png);
+    top: calc(50% - 50px);
+    right: 0;
+}
+
+.controls a.down {
+    background-image: url(images/arrow-down.png);
+    bottom: 0;
+    left: calc(50% - 50px);
+}
+
+.controls a.up:active {
+    background-image: url(images/arrow-up-2.png);
+    top: 0;
+    left: calc(50% - 50px);
+}
+
+.controls a.left:active {
+    background-image: url(images/arrow-left-2.png);
+    top: calc(50% - 50px);
+    left: 0;
+}
+
+.controls a.right:active {
+    background-image: url(images/arrow-right-2.png);
+    top: calc(50% - 50px);
+    right: 0;
+}
+
+.controls a.down:active {
+    background-image: url(images/arrow-down-2.png);
+    bottom: 0;
+    left: calc(50% - 50px);
 }

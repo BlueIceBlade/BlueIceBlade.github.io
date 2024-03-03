@@ -3,18 +3,26 @@ let snakeSettings = {
     gridY: 25,
     gameContainer: '.game',
     scoreContainer: '.score',
+    menuContainer: '.menu',
+    controlsContainer: '.controls',
     speed: 5
 };
+let cGame;
+let cScore;
+let cMenu;
+let cControls;
 let snakeBody = new Array();
 let snakeHead = {};
 let egg = {};
-let grid;
 let interval;
 let gameStarted = false;
 let score = 0;
 const Snake = {
     //Start game
     start: () => {
+        //Setup container variables
+        Snake.setupContainers();
+
         //Generate grid
         Snake.generateGrid();
 
@@ -24,6 +32,12 @@ const Snake = {
         //Start moving
         Snake.move();
 
+    },
+    setupContainers: () => {
+        cGame       = $(snakeSettings.gameContainer);
+        cScore      = $(snakeSettings.scoreContainer);
+        cMenu       = $(snakeSettings.menuContainer);
+        cControls   = $(snakeSettings.controlsContainer);
     },
     generateGrid: () => {
         let gridContainer = $('<ul></ul>');
@@ -46,10 +60,7 @@ const Snake = {
         }
 
         //Replace contents of game container with grid
-        $(snakeSettings.gameContainer).html(gridContainer);
-
-        //Assign selector to var
-        grid = $(snakeSettings.gameContainer);
+        cGame.html(gridContainer);
     },
     init: () => {
         //Work out random position for the head 5 block towards the inside
@@ -63,7 +74,7 @@ const Snake = {
         snakeBody = [];
 
         //Place head and set direction
-        grid.find('li[data-x="'+snakeHead.x+'"][data-y="'+snakeHead.y+'"]').addClass('head').attr('data-dir', snakeHead.d);
+        cGame.find('li[data-x="'+snakeHead.x+'"][data-y="'+snakeHead.y+'"]').addClass('head').attr('data-dir', snakeHead.d);
 
         //Place egg in random position
         Snake.placeEgg();
@@ -71,6 +82,10 @@ const Snake = {
         //Set score to 0
         score = 0;
         Snake.score(0);
+
+        //Hide menu and show controls:
+        cMenu.removeClass('show');
+        cControls.addClass('show');
 
         //Set game as started
         gameStarted = true;
@@ -97,8 +112,8 @@ const Snake = {
         }
 
         //Place Egg
-        grid.find('.egg').removeClass('egg');
-        grid.find('li[data-x="'+egg.x+'"][data-y="'+egg.y+'"]').addClass('egg');
+        cGame.find('.egg').removeClass('egg');
+        cGame.find('li[data-x="'+egg.x+'"][data-y="'+egg.y+'"]').addClass('egg');
     },
     move: () => {
         let currentSpeed = 1000/snakeSettings.speed;
@@ -150,13 +165,13 @@ const Snake = {
             }
 
             //Remove old head position and set new one
-            grid.find('.head').removeAttr('data-dir').removeClass('head');
-            grid.find('li[data-x="'+snakeHead.x+'"][data-y="'+snakeHead.y+'"]').addClass('head').attr('data-dir', snakeHead.d);
+            cGame.find('.head').removeAttr('data-dir').removeClass('head');
+            cGame.find('li[data-x="'+snakeHead.x+'"][data-y="'+snakeHead.y+'"]').addClass('head').attr('data-dir', snakeHead.d);
 
             //Move body
-            grid.find('.body').removeClass('body');
+            cGame.find('.body').removeClass('body');
             for (let bodyPart of snakeBody) {
-                grid.find('li[data-x="'+bodyPart.x+'"][data-y="'+bodyPart.y+'"]').addClass('body');
+                cGame.find('li[data-x="'+bodyPart.x+'"][data-y="'+bodyPart.y+'"]').addClass('body');
             }
 
             //Continue movement
@@ -175,30 +190,37 @@ const Snake = {
         score += num;
 
         //Update score number
-        $(snakeSettings.scoreContainer).text(score);
+        cScore.text(score);
     },
     isDead: () => {
         //Check if head touched the walls
         if (snakeHead.x <= 0 || snakeHead.x > snakeSettings.gridX || snakeHead.y <= 0 || snakeHead.y > snakeSettings.gridY) {
-            gameStarted =  false;
+            Snake.stopGame();
             return true;
         }
 
         //Check if snake bit itself
         for (let bodyPart of snakeBody) {
             if (snakeHead.x == bodyPart.x && snakeHead.y == bodyPart.y) {
-                gameStarted =  false;
+                Snake.stopGame();
                 return true;
             }
         }
         if (snakeHead.x <= 0 || snakeHead.x > snakeSettings.gridX || snakeHead.y <= 0 || snakeHead.y > snakeSettings.gridY) {
-            gameStarted =  false;
+            Snake.stopGame();
             return true;
         }
 
         //Snake is fine
         return false;
     },
+    stopGame: () => {
+        //Show menu and hide controls:
+        cMenu.addClass('show');
+        cControls.removeClass('show');
+
+        gameStarted = false;
+    }
 
 }
 
@@ -229,4 +251,30 @@ $(document).on('keyup', function(e) {
             snakeHead.d = snakeHead.d != 1 ? 3 : snakeHead.d;
         }
     }
+});
+
+$(document).on('click', snakeSettings.controlsContainer+' a', function() {
+    if (!gameStarted) {
+        return false;
+    }
+
+    let code = 38
+    if ($(this).hasClass('up')) {
+        code = 38
+    }
+    if ($(this).hasClass('right')) {
+        code = 39
+    }
+    if ($(this).hasClass('down')) {
+        code = 40
+    }
+    if ($(this).hasClass('left')) {
+        code = 37
+    }
+
+
+
+    var e = jQuery.Event("keyup");
+    e.keyCode = code; // # Some key code value
+    $(document).trigger(e);
 });
